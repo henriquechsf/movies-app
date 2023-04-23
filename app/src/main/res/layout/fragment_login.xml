@@ -50,6 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
+            android:drawableStart="@drawable/ic_email"
+            android:drawablePadding="12dp"
             android:hint="@string/text_hint_edit_email_login_fragment"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
@@ -64,6 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_password"
+            android:drawablePadding="12dp"
             android:hint="@string/text_hint_edit_password_login_fragment"
             android:importantForAutofill="no"
             android:inputType="textPassword"
@@ -83,6 +87,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edt_password" />
 
+        <ImageView
+            android:id="@+id/progress_loading"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="36dp"
+            android:src="@drawable/loading"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button2"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
+
         <TextView
             android:id="@+id/btn_forgot"
             android:layout_width="wrap_content"
@@ -94,7 +115,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/progress_loading" />
 
         <LinearLayout
             android:id="@+id/linearLayout3"
