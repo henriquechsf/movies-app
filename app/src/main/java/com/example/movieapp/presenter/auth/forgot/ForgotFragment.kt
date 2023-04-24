@@ -13,6 +13,8 @@ import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentForgotBinding
 import com.example.movieapp.databinding.FragmentLoginBinding
 import com.example.movieapp.util.StateView
+import com.example.movieapp.util.hideKeyboard
+import com.example.movieapp.util.isEmailValid
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,10 +51,11 @@ class ForgotFragment : Fragment() {
     private fun validateData() {
         val email = binding.edtEmail.text.toString()
 
-        if (email.isNotEmpty()) {
+        if (email.isEmailValid()) {
+            hideKeyboard()
             forgot(email)
         } else {
-
+            Toast.makeText(requireContext(), "Email invalido", Toast.LENGTH_SHORT).show()
         }
     }
 

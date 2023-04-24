@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentRegisterBinding
 import com.example.movieapp.util.StateView
+import com.example.movieapp.util.hideKeyboard
+import com.example.movieapp.util.isEmailValid
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,14 +52,15 @@ class RegisterFragment : Fragment() {
         val email = binding.edtEmail.text.toString()
         val password = binding.edtPassword.text.toString()
 
-        if (email.isNotEmpty()) {
+        if (email.isEmailValid()) {
             if (password.isNotEmpty()) {
+                hideKeyboard()
                 register(email, password)
             } else {
 
             }
         } else {
-
+            Toast.makeText(requireContext(), "Email invalido", Toast.LENGTH_SHORT).show()
         }
     }
 
