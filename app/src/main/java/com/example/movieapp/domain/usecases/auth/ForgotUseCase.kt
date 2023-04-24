@@ -7,7 +7,7 @@ class ForgotUseCase @Inject constructor(
     private val firebaseAuthentication: FirebaseAuthentication
 ) {
 
-    suspend operator fun invoke(email: String, password: String) {
+    suspend operator fun invoke(email: String) {
         firebaseAuthentication.forgot(email)
     }
 }

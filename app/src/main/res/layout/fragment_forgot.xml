@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <Button
-            android:id="@+id/btn_register"
+            android:id="@+id/btn_forgot"
             style="@style/ThemeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_register"
+            app:layout_constraintTop_toBottomOf="@+id/btn_forgot"
             app:layout_constraintVertical_bias="0.0"
             tools:ignore="ContentDescription"
             tools:visibility="visible" />
