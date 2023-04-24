@@ -12,10 +12,12 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentForgotBinding
 import com.example.movieapp.databinding.FragmentLoginBinding
+import com.example.movieapp.util.FirebaseHelper
 import com.example.movieapp.util.StateView
 import com.example.movieapp.util.hideKeyboard
 import com.example.movieapp.util.initToolbar
 import com.example.movieapp.util.isEmailValid
+import com.example.movieapp.util.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,7 +59,7 @@ class ForgotFragment : Fragment() {
             hideKeyboard()
             forgot(email)
         } else {
-            Toast.makeText(requireContext(), "Email invalido", Toast.LENGTH_SHORT).show()
+            showSnackBar(R.string.text_email_empty_forgot_fragment)
         }
     }
 
@@ -68,19 +70,11 @@ class ForgotFragment : Fragment() {
                     binding.progressLoading.isVisible = true
                 }
                 is StateView.Success -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Email enviado com sucesso",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showSnackBar(message = R.string.text_send_email_success_forgot_fragment)
                 }
                 is StateView.Error -> {
                     binding.progressLoading.isVisible = false
-                    Toast.makeText(
-                        requireContext(),
-                        stateView.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showSnackBar(message = FirebaseHelper.validError(stateView.message ?: ""))
                 }
             }
         }
