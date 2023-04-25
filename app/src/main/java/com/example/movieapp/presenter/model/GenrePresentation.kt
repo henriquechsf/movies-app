@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class GenrePresentation(
-    val id: Int,
-    val name: String,
-    val movies: List<Movie>
+    val id: Int?,
+    val name: String?,
+    val movies: List<Movie>?
 ) : Parcelable
