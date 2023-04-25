@@ -4,7 +4,6 @@ import com.example.movieapp.data.api.ServiceApi
 import com.example.movieapp.data.model.GenresResponse
 import com.example.movieapp.data.model.MovieResponse
 import com.example.movieapp.domain.repository.movie.MovieRepository
-import com.example.movieapp.util.Constants
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -14,7 +13,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun getGenre(apiKey: String, language: String?): GenresResponse {
         return serviceApi.getGenres(
             apiKey = apiKey,
-            language = Constants.Movie.LANGUAGE
+            language = language
         )
     }
 
@@ -25,7 +24,7 @@ class MovieRepositoryImpl @Inject constructor(
     ): List<MovieResponse> {
         return serviceApi.getMoviesByGenre(
             apiKey = apiKey,
-            language = Constants.Movie.LANGUAGE,
+            language = language,
             genreId = genreId
         ).results ?: emptyList()
     }
