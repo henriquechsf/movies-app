@@ -5,6 +5,8 @@ buildscript {
         lifecycle_version = '2.6.0'
         navigation_version = '2.5.3'
         glide_version = '4.15.0'
+        okhttp_version = '4.10.0'
+        retrofit_version = '2.9.0'
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.15'
