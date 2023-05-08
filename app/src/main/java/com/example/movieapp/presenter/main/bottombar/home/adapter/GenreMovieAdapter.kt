@@ -1,4 +1,4 @@
-package com.example.movieapp.presenter.main.home.adapter
+package com.example.movieapp.presenter.main.bottombar.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.databinding.GenreItemBinding
 import com.example.movieapp.presenter.model.GenrePresentation
 
-class GenreMovieAdapter :
+class GenreMovieAdapter(
+    private val showAllListener: (Int) -> Unit
+) :
     ListAdapter<GenrePresentation, GenreMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -49,6 +51,10 @@ class GenreMovieAdapter :
         val layoutManager = LinearLayoutManager(
             holder.binding.root.context, LinearLayoutManager.HORIZONTAL, false
         )
+
+        holder.binding.tvShowAll.setOnClickListener {
+            genre.id?.let { showAllListener(it) }
+        }
 
         holder.binding.rvMovies.apply {
             this.layoutManager = layoutManager
