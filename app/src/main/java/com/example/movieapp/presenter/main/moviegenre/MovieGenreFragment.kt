@@ -16,6 +16,7 @@ import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentMovieGenreBinding
 import com.example.movieapp.presenter.main.bottombar.home.adapter.MovieAdapter
 import com.example.movieapp.util.StateView
+import com.example.movieapp.util.hideKeyboard
 import com.example.movieapp.util.initToolbar
 import com.ferfalk.simplesearchview.SimpleSearchView
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,7 +82,11 @@ class MovieGenreFragment : Fragment() {
             SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 Log.d("SimpleSearchView", "Submit:$query")
-                return false
+                hideKeyboard()
+                if (query.isNotEmpty()) {
+                    searchMovies(query)
+                }
+                return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
@@ -105,6 +110,25 @@ class MovieGenreFragment : Fragment() {
                 is StateView.Success -> {
                     binding.progressBar.isVisible = false
                     movieAdapter.submitList(stateView.data)
+                }
+                is StateView.Error -> {
+                    binding.progressBar.isVisible = false
+                }
+            }
+        }
+    }
+
+    private fun searchMovies(query: String?) {
+        viewModel.searchMovies(query).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is StateView.Loading -> {
+                    binding.rvMovies.isVisible = false
+                    binding.progressBar.isVisible = true
+                }
+                is StateView.Success -> {
+                    binding.progressBar.isVisible = false
+                    movieAdapter.submitList(stateView.data)
+                    binding.rvMovies.isVisible = true
                 }
                 is StateView.Error -> {
                     binding.progressBar.isVisible = false
