@@ -11,7 +11,7 @@ import com.example.movieapp.databinding.GenreItemBinding
 import com.example.movieapp.presenter.model.GenrePresentation
 
 class GenreMovieAdapter(
-    private val showAllListener: (Int) -> Unit
+    private val showAllListener: (Int, String) -> Unit
 ) :
     ListAdapter<GenrePresentation, GenreMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
@@ -57,7 +57,7 @@ class GenreMovieAdapter(
         )
 
         holder.binding.tvShowAll.setOnClickListener {
-            genre.id?.let { showAllListener(it) }
+            genre.id?.let { showAllListener(genre.id, genre.name ?: "") }
         }
 
         holder.binding.rvMovies.apply {
