@@ -57,13 +57,16 @@ class MovieDetailsFragment : Fragment() {
             }
     }
 
-    private fun configData(movie: Movie?) {
+    private fun configData(movie: Movie?) = with(binding) {
         Glide
             .with(requireContext())
             .load("https://image.tmdb.org/t/p/w500${movie?.posterPath}")
-            .into(binding.imgMoviePoster)
+            .into(imgMoviePoster)
 
-        binding.tvMovieTitle.text = movie?.originalTitle
+        tvMovieTitle.text = movie?.originalTitle
+        tvMovieAverage.text = String.format("%.1f", movie?.voteAverage)
+        tvProductionCountry.text = movie?.productionCountries?.get(0)?.name ?: ""
+        tvMovieRelease.text = movie?.releaseDate
     }
 
     override fun onDestroyView() {
