@@ -14,7 +14,8 @@ import com.example.movieapp.domain.model.Movie
 
 class MovieAdapter(
     private val context: Context,
-    private val layoutInflater: Int
+    private val layoutInflater: Int,
+    private val onMovieClickListener: (Int) -> Unit
 ) : ListAdapter<Movie, MovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -43,6 +44,12 @@ class MovieAdapter(
         Glide.with(context)
             .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
             .into(holder.movieImage)
+
+        holder.itemView.setOnClickListener {
+            movie.id?.let {
+                onMovieClickListener(movie.id)
+            }
+        }
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
