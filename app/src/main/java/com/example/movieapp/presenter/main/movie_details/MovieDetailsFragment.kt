@@ -70,6 +70,7 @@ class MovieDetailsFragment : Fragment() {
         tvMovieRelease.text = movie?.releaseDate
         val genres = movie?.genres?.map { it.name }?.joinToString(", ")
         tvGenres.text = getString(R.string.text_all_genres_movie_details_fragment, genres)
+        tvDescription.text = movie?.overview
     }
 
     override fun onDestroyView() {
