@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentMovieDetailsBinding
 import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.util.StateView
@@ -67,6 +68,8 @@ class MovieDetailsFragment : Fragment() {
         tvMovieAverage.text = String.format("%.1f", movie?.voteAverage)
         tvProductionCountry.text = movie?.productionCountries?.get(0)?.name ?: ""
         tvMovieRelease.text = movie?.releaseDate
+        val genres = movie?.genres?.map { it.name }?.joinToString(", ")
+        tvGenres.text = getString(R.string.text_all_genres_movie_details_fragment, genres)
     }
 
     override fun onDestroyView() {
