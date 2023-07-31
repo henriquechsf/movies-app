@@ -58,6 +58,23 @@ class MovieDetailsFragment : Fragment() {
             }
     }
 
+    private fun getCredits() {
+        movieDetailsViewModel.getCredits(args.movieId)
+            .observe(viewLifecycleOwner) { stateView ->
+                when (stateView) {
+                    is StateView.Loading -> {
+
+                    }
+                    is StateView.Success -> {
+
+                    }
+                    is StateView.Error -> {
+
+                    }
+                }
+            }
+    }
+
     private fun configData(movie: Movie?) = with(binding) {
         Glide
             .with(requireContext())
