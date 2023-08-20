@@ -1,7 +1,6 @@
 package com.example.movieapp.presenter.main.movie_details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,10 @@ import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentMovieDetailsBinding
 import com.example.movieapp.domain.model.Movie
 import com.example.movieapp.presenter.main.movie_details.adapter.CastAdapter
+import com.example.movieapp.presenter.main.movie_details.adapter.ViewPagerAdapter
 import com.example.movieapp.util.StateView
 import com.example.movieapp.util.initToolbar
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,6 +45,7 @@ class MovieDetailsFragment : Fragment() {
 
         getMovieDetails()
         initRecyclerCredits()
+        configTabLayout()
     }
 
     private fun initRecyclerCredits() {
@@ -83,7 +85,7 @@ class MovieDetailsFragment : Fragment() {
 
                     }
                     is StateView.Success -> {
-                       castAdapter.submitList(stateView.data?.cast)
+                        castAdapter.submitList(stateView.data?.cast)
                     }
                     is StateView.Error -> {
 
@@ -105,6 +107,30 @@ class MovieDetailsFragment : Fragment() {
         val genres = movie?.genres?.map { it.name }?.joinToString(", ")
         tvGenres.text = getString(R.string.text_all_genres_movie_details_fragment, genres)
         tvDescription.text = movie?.overview
+    }
+
+    private fun configTabLayout() {
+        val adapter = ViewPagerAdapter(requireActivity())
+        binding.viewPager.adapter = adapter
+
+        adapter.addFragment(
+            fragment = TraillersFragment(),
+            title = R.string.title_trailers_tab_layout
+        )
+        adapter.addFragment(
+            fragment = SimilarFragment(),
+            title = R.string.title_similar_tab_layout
+        )
+        adapter.addFragment(
+            fragment = CommentsFragment(),
+            title = R.string.title_comments_tab_layout
+        )
+
+        binding.viewPager.offscreenPageLimit = adapter.itemCount
+
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = getString(adapter.getTitle(position))
+        }.attach()
     }
 
     override fun onDestroyView() {
