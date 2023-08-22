@@ -80,7 +80,7 @@ fun AuthorDetailsResponse.toDomain(): AuthorDetails {
     return AuthorDetails(
         name = name,
         username = username,
-        avatarPath = "https://image.tmdb.org/t/p/w500$avatarPath",
+        avatarPath = avatarPath,
         rating = rating
     )
 }

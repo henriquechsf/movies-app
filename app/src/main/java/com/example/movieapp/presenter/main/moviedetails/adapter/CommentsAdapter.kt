@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movieapp.R
 import com.example.movieapp.databinding.ItemCommentReviewBinding
 import com.example.movieapp.domain.model.MovieReview
 import com.example.movieapp.util.formatCommentDate
@@ -38,11 +39,15 @@ class CommentsAdapter : ListAdapter<MovieReview, CommentsAdapter.MyViewHolder>(D
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val movieReview = getItem(position)
-        Log.i("INFOTEST", "onBindViewHolder: $movieReview")
-
-        Glide.with(holder.binding.root.context)
-            .load(movieReview.authorDetails?.avatarPath)
-            .into(holder.binding.imgUser)
+        movieReview.authorDetails?.avatarPath?.let {avatarPath ->
+            Glide.with(holder.binding.root.context)
+                .load("https://image.tmdb.org/t/p/w500$avatarPath")
+                .into(holder.binding.imgUser)
+        } ?: run {
+            Glide.with(holder.binding.root.context)
+                .load(R.drawable.avatar)
+                .into(holder.binding.imgUser)
+        }
 
         with(holder.binding) {
             tvUsername.text = movieReview.authorDetails?.username

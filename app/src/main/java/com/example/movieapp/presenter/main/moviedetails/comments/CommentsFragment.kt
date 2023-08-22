@@ -1,23 +1,27 @@
 package com.example.movieapp.presenter.main.moviedetails.comments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.movieapp.databinding.FragmentCommentsBinding
-import com.example.movieapp.domain.model.AuthorDetails
-import com.example.movieapp.domain.model.MovieReview
-import com.example.movieapp.presenter.main.moviedetails.adapter.CastAdapter
 import com.example.movieapp.presenter.main.moviedetails.adapter.CommentsAdapter
+import com.example.movieapp.presenter.main.moviedetails.details.MovieDetailsViewModel
+import com.example.movieapp.util.StateView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CommentsFragment : Fragment() {
 
     private var _binding: FragmentCommentsBinding? = null
     private val binding get() = _binding!!
+
+    private val commentsViewModel: CommentsViewModel by viewModels()
+    private val movieDetailsViewModel: MovieDetailsViewModel by activityViewModels()
 
     private lateinit var commentsAdapter: CommentsAdapter
 
@@ -33,6 +37,7 @@ class CommentsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initRecycler()
+        initObservers()
     }
 
     private fun initRecycler() {
@@ -44,27 +49,30 @@ class CommentsFragment : Fragment() {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = commentsAdapter
         }
-
-        commentsAdapter.submitList(fakeList())
     }
 
-    private fun fakeList(): List<MovieReview> {
-        return listOf(
-            MovieReview(
-                author = "thealanfrench",
-                authorDetails = AuthorDetails(
-                    name = "",
-                    username = "thealanfrench",
-                    avatarPath = "https://secure.gravatar.com/avatar/23f2cd16e6fafdf013b30ccc22e2e4c8.jpg",
-                    rating = 5
-                ),
-                content = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                createdAt = "2023-03-15T05:13:49.138Z",
-                id = "6411540dfe6c1800bb659ebd",
-                updatedAt = "2023-03-15T05:13:49.138Z",
-                url = "https://www.themoviedb.org/review/6411540dfe6c1800bb659ebd"
-            )
-        )
+    private fun initObservers() {
+        movieDetailsViewModel.movieId.observe(viewLifecycleOwner) { movieId ->
+            if (movieId > 0) {
+                getMovieReviews(movieId)
+            }
+        }
+    }
+
+    private fun getMovieReviews(movieId: Int) {
+        commentsViewModel.getMovieReviews(movieId).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is StateView.Loading -> {
+
+                }
+                is StateView.Success -> {
+                    commentsAdapter.submitList(stateView.data)
+                }
+                is StateView.Error -> {
+
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
