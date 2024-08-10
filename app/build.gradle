@@ -9,6 +9,10 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
 }
 
+def apiKeyPropertiesFile = rootProject.file("apiKey.properties")
+def apiKeyProperties = new Properties()
+apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+
 android {
     namespace 'com.example.movieapp'
     compileSdk 33
@@ -21,6 +25,11 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // ENVIRONMENT KEYS
+        buildConfigField "String", "API_KEY", apiKeyProperties["API_KEY"]
+        buildConfigField "String", "BASE_URL", apiKeyProperties["BASE_URL"]
+        buildConfigField "String", "BASE_URL_IMAGE", apiKeyProperties["BASE_URL_IMAGE"]
     }
 
     buildTypes {
@@ -30,11 +39,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = '17'
     }
     viewBinding {
         enabled = true
